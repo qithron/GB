@@ -3,7 +3,8 @@ from .line import line
 from .point import point
 
 def intersect(A, B, /):
-    '''Intersect of 2 lines.
+    '''\
+    Intersect of 2 lines.
     a₁x + b₁y + c₁ = 0
     a₂x + b₂y + c₂ = 0
         x' = (c₁b₂ - c₂b₁) / (a₁b₂ - a₂b₁)

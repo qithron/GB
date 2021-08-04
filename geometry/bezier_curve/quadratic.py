@@ -1,8 +1,3 @@
-'''Bezier Curve Quadratic
-(1-𝓉)²P₀ + 2(1-𝓉)𝓉P₁ + 𝓉²P₂, 0 <= 𝓉 <= 1
-(1-t)**2*P0 + 2*(1-t)*t*P1 + t**2*P2
-'''
-
 from ... import RD, SM
 
 def bcq_simple(P0, P1, P2, step=100):

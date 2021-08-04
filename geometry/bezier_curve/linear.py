@@ -1,8 +1,3 @@
-'''Bezier Curve Linear
-(1-𝓉)P₀ + 𝓉P₁, 0 <= 𝓉 <= 1
-(1-t)*P0 + t*P1
-'''
-
 from ... import RD, SM
 from ..._fuf import int_try, is_int
 from .. import slope
@@ -30,13 +25,11 @@ def bcl_v4(P0, P1): # custom method
     if P0 == P1: return (int_try(P0),)
     slp = slope(P0, P1)
     # linear to which axis? x or y?
-    m, n, s = ((0, 1, False) if (slp == 0) or (slp
-        and (abs(slp) < 1 or (abs(slp) == 1 and P0[0]%1 <= P0[1]%1)))
-        else (1, 0, True))
-    ##m, n, s = s
+    m, n, s = (0, 1, False) if (slp == 0) or (slp and \
+              (abs(slp) < 1 or (abs(slp) == 1 and P0[0]%1 <= P0[1]%1))) \
+              else (1, 0, True)
     # directions? positive or negative?
     pd, pb = (0, 1) if P0[m]-P1[m] < 0 else (1, 0)
-    ##pd, pb = pd
     # is start and end point int?
     ii = is_int(P0[m]), is_int(P1[m])
     # int of start and end point

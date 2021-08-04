@@ -4,14 +4,16 @@ class point:
     '''\
     2D Cartesian Coordinate System.
     Basic class contains 2 decimal value.
-    
+
     point(x, y)
 
     Construct a new point object. With no argument, point() will create
     point(0, 0).
     '''
     # I'm not sure about __rtruediv__, and below its
+
     __slots__ = 'x', 'y'
+
     def __init__(self, x=0, y=0, /):
         self.x = dec(x).normalize()
         self.y = dec(y).normalize()

@@ -3,7 +3,8 @@ from .line import line
 from .point import point
 
 def distance(A, B, /):
-    '''Distance point/line to point/line.
+    '''\
+    Distance point/line to point/line.
     Point-Point:
         (x₁, y₁)
         (x₂, y₂)
@@ -26,7 +27,8 @@ def distance(A, B, /):
         y = mx + b₁
         y = mx + b₂
             d = |b₂ - b₁| / √m²+1
-    ''' # add support to other geometry object
+    '''
+    # add support to other geometry object
     if type(A) == line == type(B):
         if 0 == A.a == A.b == B.a == B.b:
             return None

@@ -11,8 +11,8 @@ class line:
                 a always positive
                 a, b, c always int.
 
-    line(point, point) -> line
-    line(point, m=x) -> line
+    line(A, B) -> line
+    line(A, m=x) -> line
 
     P = base point
     Q = 2nd point, ignored if m specified
@@ -23,7 +23,6 @@ class line:
         note: m value can become 0 or -0; inf or -inf
               indicates the direction of the line
     '''
-
     #### Line from 2 points:
     ####     (x₁, y₁)
     ####     (x₂, y₂)
@@ -43,6 +42,7 @@ class line:
     ####             c = y1 - mx1
 
     __slots__ = 'P', 'Q', 'm', 'a', 'b', 'c', '__arg'
+
     def __init__(self, A, B=None, /, *, m=None):
         self.__arg = A, B, m
         self.P = A if type(A) == point else point(*A)

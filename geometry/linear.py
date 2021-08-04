@@ -2,9 +2,11 @@ from .line import line
 from .point import point
 
 def linear(O, L, /):
-    '''Return a linear line.
+    '''\
+    Return a linear line.
     First argument can be a point, line or sequence types.
-    Second argument must be a line.'''
+    Second argument must be a line.
+    '''
     if type(L) != line:
         raise TypeError(f'Second argument must be a {line}')
     if type(O) != point and type(O) != line:
