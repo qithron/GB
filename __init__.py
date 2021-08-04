@@ -3,6 +3,7 @@ import decimal
 DC = decimal.BasicContext
 DC.prec = 16
 decimal.setcontext(DC)
+
 RD = 9 # round(number, RD)
 SM = 1 # bezier curve step multiplier
 
