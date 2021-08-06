@@ -3,7 +3,9 @@ from .line import line
 from .point import point
 
 def perpendicular(O, L, /):
-    '''\
+    '''
+    perpendicular(O, L, /):
+
     Return a perpendicular line.
     First argument can be a point, line or sequence types.
     Second argument must be a line.

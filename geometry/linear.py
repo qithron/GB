@@ -2,7 +2,9 @@ from .line import line
 from .point import point
 
 def linear(O, L, /):
-    '''\
+    '''
+    linear(O, L, /):
+
     Return a linear line.
     First argument can be a point, line or sequence types.
     Second argument must be a line.

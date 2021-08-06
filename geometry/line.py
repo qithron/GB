@@ -4,15 +4,17 @@ from .slope import slope
 from math import gcd
 
 class line:
-    '''\
+    '''
+    line(A, B=None, /, *, m=None)
+
+    line(A, B)
+    line(A, m=x)
+
     Will give something like this:
-        ax + by - c = 0
+        ax + by + c = 0
             where is:
                 a always positive
                 a, b, c always int.
-
-    line(A, B) -> line
-    line(A, m=x) -> line
 
     P = base point
     Q = 2nd point, ignored if m specified
@@ -20,8 +22,12 @@ class line:
     a = x coefficient, if any
     b = y coefficient, if any
     c = constants
-        note: m value can become 0 or -0; inf or -inf
-              indicates the direction of the line
+
+    note:
+        m value can become 0 or -0; inf or -inf
+        indicates the direction of the line,
+        even None that indicates this is
+        not a line at all
     '''
     #### Line from 2 points:
     ####     (x₁, y₁)
@@ -31,7 +37,7 @@ class line:
     ####             a = -(y2 - y1)
     ####             b = (x2 - x1)
     ####             c = (-y1)*(x2 - x1) - (-x1)*(y2 - y1)
-    ####
+
     #### Line from a gradient:
     ####     (x₁, y₁)
     ####     m
@@ -130,9 +136,12 @@ class line:
     def __len__(self):
         return 3
 
-    def __getitem__(self, key):
+    def __getitem__(self, key, /):
         return getattr(self, key)
     ###########################################################################
+    def __is_int(self, value, /):
+        return True if value.as_integer_ratio()[1] == 1 else False
+
     def _preview(self):
         Px, Py = self.P
         Qx, Qy = self.Q
@@ -140,11 +149,8 @@ class line:
         m = self.m
         a, b, c = self.a, self.b, self.c
         return f'P = ({Px}, {Py})\nQ = {Q}\nm = {m}\na:{a} b:{b} c:{c}\n'
-
-    def __is_int(self, value):
-        return True if value.as_integer_ratio()[1] == 1 else False
     ###########################################################################
-    def x_from(self, y):
+    def x_from(self, y, /):
         y = dec(y)
         m = self.m
         if m == None:
@@ -158,7 +164,7 @@ class line:
         x = (y + m*x1 - y1)/m
         return x
 
-    def y_from(self, x):
+    def y_from(self, x, /):
         x = dec(x)
         m = self.m
         if m == 0:

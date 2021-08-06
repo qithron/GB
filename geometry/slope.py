@@ -2,7 +2,11 @@ from .. import decimal, dec
 from .point import point
 
 def slope(A, B, /):
-    '''Calculating slope from 2 point.'''
+    '''
+    slope(A, B, /):
+
+    Slope of 2 points. use line.m for line slope instead.
+    '''
     if type(A) != point:
         A = point(*A)
     if type(B) != point:

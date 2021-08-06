@@ -1,4 +1,5 @@
-'''Bezier Curve.
+'''
+Bezier Curve.
 Based on https://en.wikipedia.org/wiki/B%C3%A9zier_curve
 
 Bezier Curve Linear

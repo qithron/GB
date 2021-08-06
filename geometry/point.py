@@ -1,11 +1,13 @@
 from .. import decimal, DC, dec
 
 class point:
-    '''\
-    2D Cartesian Coordinate System.
-    Basic class contains 2 decimal value.
+    '''
+    point(x=0, y=0, /)
 
     point(x, y)
+
+    2D Cartesian Coordinate System.
+    Basic class contains 2 decimal value.
 
     Construct a new point object. With no argument, point() will create
     point(0, 0).
@@ -32,11 +34,11 @@ class point:
     def __bool__(self):
         return True if self.x and self.y else False
 
-    def __eq__(self, other):
+    def __eq__(self, other, /):
         return False if type(other) != point else \
         (True if self.x == other.x and self.y == other.y else False)
 
-    def __ne__(self, other):
+    def __ne__(self, other, /):
         return True if type(other) != point else \
         (True if self.x != other.x or self.y != other.y else False)
 
@@ -59,7 +61,7 @@ class point:
             self.x.to_integral_value(rounding=decimal.ROUND_FLOOR),
             self.y.to_integral_value(rounding=decimal.ROUND_FLOOR))
 
-    def __round__(self, ndigits=None):
+    def __round__(self, ndigits=None, /):
         if not ndigits:
             return self.x.to_integral_value(), self.y.to_integral_value()
         e = dec(f'0e-{ndigits}')
@@ -71,82 +73,82 @@ class point:
     def __len__(self):
         return 2 # more than enough
 
-    def __getitem__(self, key):
+    def __getitem__(self, key, /):
         return getattr(self, key)
     ###########################################################################
-    def __add__(self, obj):
+    def __add__(self, obj, /):
         x, y = self.__get_value(obj)
         return self.x + x, self.y + y
 
-    def __sub__(self, obj):
+    def __sub__(self, obj, /):
         x, y = self.__get_value(obj)
         return self.x - x, self.y - y
 
-    def __mul__(self, value):
+    def __mul__(self, value, /):
         if type(value) == float:
             value = dec(value)
         return self.x * value, self.y * value
 
-    def __truediv__(self, value):
+    def __truediv__(self, value, /):
         if type(value) == float:
             value = dec(value)
         return self.x / value, self.y / value
 
-    def __floordiv__(self, value):
+    def __floordiv__(self, value, /):
         if type(value) == float:
             value = dec(value)
         return self.x // value, self.y // value
 
-    def __mod__(self, value):
+    def __mod__(self, value, /):
         if type(value) == float:
             value = dec(value)
         return self.x % value, self.y % value
 
-    def __divmod__(self, value):
+    def __divmod__(self, value, /):
         if type(value) == float:
             value = dec(value)
         return DC.divmod(self.x, value), DC.divmod(self.y, value)
 
-    def __pow__(self, value, mod=None):
+    def __pow__(self, value, mod=None, /):
         if type(value) == float:
             value = dec(value)
         return DC.power(self.x, value, mod), DC.power(self.y, value, mod)
     ###########################################################################
-    def __radd__(self, obj):
+    def __radd__(self, obj, /):
         x, y = self.__get_value(obj)
         return x + self.x, y + self.y
 
-    def __rsub__(self, obj):
+    def __rsub__(self, obj, /):
         x, y = self.__get_value(obj)
         return x - self.x, y - self.y
 
-    def __rmul__(self, value):
+    def __rmul__(self, value, /):
         if type(value) == float:
             value = dec(value)
         return value * self.x, value * self.y
 
-    def __rtruediv__(self, value):
+    def __rtruediv__(self, value, /):
         if type(value) == float:
             value = dec(value)
         return value / self.x, value / self.y
 
-    def __rfloordiv__(self, value):
+    def __rfloordiv__(self, value, /):
         raise TypeError('unsupported operand type(s) '
             f'for //: {type(value)} and point')
 
-    def __rmod__(self, value):
+    def __rmod__(self, value, /):
         raise TypeError('unsupported operand type(s) '
             f'for %: {type(value)} and point')
 
-    def __rdivmod__(self, value):
+    def __rdivmod__(self, value, /):
         raise TypeError('unsupported operand type(s) '
             f'for divmod(): {type(value)} and point')
 
-    def __rpow__(self, value, mod=None):
+    def __rpow__(self, value, mod=None, /):
         raise TypeError('unsupported operand type(s) '
             f'for ** or pow(): {type(value)} and point')
     ###########################################################################
-    def __get_value(self, obj):
+    def __get_value(self, obj, /):
         if type(obj) == point:
             x, y = obj
         elif type(obj) == int or type(obj) == decimal:

@@ -1,4 +1,6 @@
-'''FUF (Frequently Used Functions) aka Shortcuts.'''
+'''
+FUF (Frequently Used Functions) aka Shortcuts.
+'''
 
 def all_elem(iterable):
     return False if iterable and iterable.count(iterable[0]) != len(iterable)\
