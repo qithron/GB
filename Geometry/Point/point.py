@@ -63,7 +63,9 @@ class point:
 
     def __round__(self, ndigits=None, /):
         if not ndigits:
-            return self.x.to_integral_value(), self.y.to_integral_value()
+            return point(
+                self.x.to_integral_value(),
+                self.y.to_integral_value())
         e = dec(f'0e-{ndigits}')
         return point(
             self.x.quantize(e).normalize(),
@@ -77,7 +79,7 @@ class point:
 
     def __getitem__(self, key, /):
         return getattr(self, key)
-    
+
     def __contains__(self, item, /):
         return True if item == self.x or item == self.y else False
     ###########################################################################
