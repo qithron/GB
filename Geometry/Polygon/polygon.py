@@ -1,6 +1,6 @@
-from .. import dec
-from .bezier_curve import bcl
-from .point import point
+from ... import dec
+from ..Bezier_Curve import bcl
+from ..Point import point
 
 class polygon:
     '''
@@ -40,7 +40,7 @@ class polygon:
 
     def geogebra(self, d=0.3):
         c = f'Circle({self.points[0]}, {d})'
-        p = str(self.points)[1:-1]
+        p = ', '.join((f'({v.x}, {v.y})' for v in self.points))
         v = ', '.join([f'Vector({self.points[i-1]}, {self.points[i]})'
               for i in range(1,len(self.points))]
               + [f'Vector({self.points[-1]},{self.points[0]})'])

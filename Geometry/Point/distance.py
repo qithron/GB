@@ -1,5 +1,5 @@
-from .. import decimal, DC, dec
-from .line import line
+from ... import decimal, DC, dec
+from ..Line import line
 from .point import point
 
 def distance(A, B, /):

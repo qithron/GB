@@ -1,5 +1,5 @@
-from .. import dec
-from .point import point
+from ... import dec
+from ..Point import point
 from .slope import slope
 from math import gcd
 
@@ -9,6 +9,7 @@ class line:
 
     line(A, B)
     line(A, m=x)
+    line(A, m=dec('inf'))
 
     Will give something like this:
         ax + by + c = 0
@@ -28,6 +29,10 @@ class line:
         indicates the direction of the line,
         even None that indicates this is
         not a line at all
+        
+        about Membership test operations: x in line,
+        return True if type(x) == point and point lies in line else False
+            
     '''
     #### Line from 2 points:
     ####     (x₁, y₁)
@@ -129,7 +134,7 @@ class line:
         P, Q, m = self.__arg
         O = Q if Q else (f'm={m}')
         return f'line({P}, {O})'
-
+    ###########################################################################
     def __iter__(self):
         return iter((self.a, self.b, self.c))
 
@@ -138,6 +143,12 @@ class line:
 
     def __getitem__(self, key, /):
         return getattr(self, key)
+    
+    def __contains__(self, item, /):
+        if len(item) != 2:
+            return False
+        x, y = item
+        return True if self.a*x + self.b*y + self.c == 0 else False
     ###########################################################################
     def __is_int(self, value, /):
         return True if value.as_integer_ratio()[1] == 1 else False
@@ -150,6 +161,12 @@ class line:
         a, b, c = self.a, self.b, self.c
         return f'P = ({Px}, {Py})\nQ = {Q}\nm = {m}\na:{a} b:{b} c:{c}\n'
     ###########################################################################
+    def ray(self):
+        pass
+    
+    def segment(self):
+        pass
+    
     def x_from(self, y, /):
         y = dec(y)
         m = self.m

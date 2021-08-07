@@ -1,6 +1,6 @@
 from ... import RD, SM
 from ..._fuf import int_try, is_int
-from .. import slope
+from ..Line import slope
 
 def bcl_simple(P0, P1, step=100):
     return tuple([(

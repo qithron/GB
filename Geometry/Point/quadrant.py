@@ -9,6 +9,9 @@ def quadrant(A, /):
     -2 = y-axis
     1-4 = the four quadrants
     '''
+    if len(A) != 2:
+        raise IndexError \
+        (f'argument take 2 items but {len(A)} were given')
     x, y = A
     if x == 0 == y:
         return 0

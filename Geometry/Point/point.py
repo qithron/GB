@@ -1,4 +1,4 @@
-from .. import decimal, DC, dec
+from ... import decimal, DC, dec
 
 class point:
     '''
@@ -23,7 +23,7 @@ class point:
     def __call__(self):
         self.x.normalize()
         self.y.normalize()
-        return self.x, self.y
+        return point(self.x, self.y)
 
     def __str__(self):
         return f'({self.x}, {self.y})'
@@ -43,21 +43,21 @@ class point:
         (True if self.x != other.x or self.y != other.y else False)
 
     def __pos__(self):
-        return +self.x, +self.y
+        return point(+self.x, +self.y)
 
     def __neg__(self):
-        return self.x.copy_negate(), self.y.copy_negate()
+        return point(self.x.copy_negate(), self.y.copy_negate())
 
     def __abs__(self):
-        return self.x.copy_abs(), self.y.copy_abs()
+        return point(self.x.copy_abs(), self.y.copy_abs())
 
     def __ceil__(self):
-        return (
+        return point(
             self.x.to_integral_value(rounding=decimal.ROUND_CEIL),
             self.y.to_integral_value(rounding=decimal.ROUND_CEIL))
 
     def __floor__(self):
-        return (
+        return point(
             self.x.to_integral_value(rounding=decimal.ROUND_FLOOR),
             self.y.to_integral_value(rounding=decimal.ROUND_FLOOR))
 
@@ -65,88 +65,99 @@ class point:
         if not ndigits:
             return self.x.to_integral_value(), self.y.to_integral_value()
         e = dec(f'0e-{ndigits}')
-        return self.x.quantize(e).normalize(), self.y.quantize(e).normalize()
+        return point(
+            self.x.quantize(e).normalize(),
+            self.y.quantize(e).normalize())
     ###########################################################################
     def __iter__(self):
         return iter((self.x, self.y))
 
     def __len__(self):
-        return 2 # more than enough
+        return 2
 
     def __getitem__(self, key, /):
         return getattr(self, key)
+    
+    def __contains__(self, item, /):
+        return True if item == self.x or item == self.y else False
     ###########################################################################
     def __add__(self, obj, /):
         x, y = self.__get_value(obj)
-        return self.x + x, self.y + y
+        return point(self.x + x, self.y + y)
 
     def __sub__(self, obj, /):
         x, y = self.__get_value(obj)
-        return self.x - x, self.y - y
+        return point(self.x - x, self.y - y)
 
     def __mul__(self, value, /):
         if type(value) == float:
             value = dec(value)
-        return self.x * value, self.y * value
+        return point(self.x * value, self.y * value)
 
     def __truediv__(self, value, /):
         if type(value) == float:
             value = dec(value)
-        return self.x / value, self.y / value
+        return point(self.x / value, self.y / value)
 
     def __floordiv__(self, value, /):
         if type(value) == float:
             value = dec(value)
-        return self.x // value, self.y // value
+        return point(self.x // value, self.y // value)
 
     def __mod__(self, value, /):
         if type(value) == float:
             value = dec(value)
-        return self.x % value, self.y % value
+        return point(self.x % value, self.y % value)
 
     def __divmod__(self, value, /):
-        if type(value) == float:
-            value = dec(value)
-        return DC.divmod(self.x, value), DC.divmod(self.y, value)
+        raise TypeError(
+            'unsupported operand type(s) '
+            f'for divmod(): {point} and {type(value)}')
 
     def __pow__(self, value, mod=None, /):
         if type(value) == float:
             value = dec(value)
-        return DC.power(self.x, value, mod), DC.power(self.y, value, mod)
+        return point(
+            DC.power(self.x, value, mod),
+            DC.power(self.y, value, mod))
     ###########################################################################
     def __radd__(self, obj, /):
         x, y = self.__get_value(obj)
-        return x + self.x, y + self.y
+        return point(x + self.x, y + self.y)
 
     def __rsub__(self, obj, /):
         x, y = self.__get_value(obj)
-        return x - self.x, y - self.y
+        return point(x - self.x, y - self.y)
 
     def __rmul__(self, value, /):
         if type(value) == float:
             value = dec(value)
-        return value * self.x, value * self.y
+        return point(value * self.x, value * self.y)
 
     def __rtruediv__(self, value, /):
         if type(value) == float:
             value = dec(value)
-        return value / self.x, value / self.y
+        return point(value / self.x, value / self.y)
 
     def __rfloordiv__(self, value, /):
-        raise TypeError('unsupported operand type(s) '
-            f'for //: {type(value)} and point')
+        raise TypeError(
+            'unsupported operand type(s) '
+            f'for //: {type(value)} and {point}')
 
     def __rmod__(self, value, /):
-        raise TypeError('unsupported operand type(s) '
-            f'for %: {type(value)} and point')
+        raise TypeError(
+            'unsupported operand type(s) '
+            f'for %: {type(value)} and {point}')
 
     def __rdivmod__(self, value, /):
-        raise TypeError('unsupported operand type(s) '
-            f'for divmod(): {type(value)} and point')
+        raise TypeError(
+            'unsupported operand type(s) '
+            f'for divmod(): {type(value)} and {point}')
 
     def __rpow__(self, value, mod=None, /):
-        raise TypeError('unsupported operand type(s) '
-            f'for ** or pow(): {type(value)} and point')
+        raise TypeError(
+            'unsupported operand type(s) '
+            f'for ** or pow(): {type(value)} and {point}')
     ###########################################################################
     def __get_value(self, obj, /):
         if type(obj) == point:
@@ -157,5 +168,6 @@ class point:
             x = y = dec(obj)
         # elif type(obj) == complex: # currently looking for it
         else:
-            raise TypeError(f'unsupported operations + or - for {type(obj)}')
+            raise TypeError(
+                f'unsupported operations + or - for {type(obj)}')
         return x, y

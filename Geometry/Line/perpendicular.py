@@ -1,6 +1,6 @@
-from .. import DC, dec
+from ... import DC, dec
+from ..Point import point
 from .line import line
-from .point import point
 
 def perpendicular(O, L, /):
     '''
@@ -11,7 +11,8 @@ def perpendicular(O, L, /):
     Second argument must be a line.
     '''
     if type(L) != line:
-        raise TypeError(f'Second argument must be a {line}')
+        raise TypeError(
+            f'second argument must be a {line} only')
     if type(O) != point and type(O) != line:
         P = point(*O)
     elif type(O) == point:
@@ -20,7 +21,7 @@ def perpendicular(O, L, /):
         P = O.P
     else:
         raise TypeError(
-            f'First argument must be a {point}, {line} or sequence types')
+            f'First argument must be a {point}, a {line} or sequence types')
     if L.m.is_infinite():
         m = dec().copy_sign(-L.m)
     else:

@@ -1,5 +1,5 @@
-from .. import decimal, dec
-from .line import line
+from ... import decimal, dec
+from ..Line import line
 from .point import point
 
 def intersect(A, B, /):
@@ -22,6 +22,7 @@ def intersect(A, B, /):
             return dec('inf')
         elif n == 0:
             return None
-        return (x/n).normalize(), (y/n).normalize()
+        return point(x/n, y/n)
     else:
-        raise TypeError('line object only')
+        raise TypeError(
+            f'both of arguments must be a {line} only')

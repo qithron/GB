@@ -50,4 +50,5 @@ def int_try(obj):
         return int(obj) if is_int(obj) else obj
     return tuple([int(x) if is_int(x) else x for x in obj])
 
-xor = lambda a, b: bool(a^b)
+def xor(a, b):
+    return bool(a^b)
