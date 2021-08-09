@@ -7,7 +7,7 @@ from math import pi, acos, cos, sin
 def polygon_F2points(A, B, /, w=1):
     '''
     polygon_F2points(A, B, /, w=1)
-    
+
     polygon from 2 points
 
     Return a polygon object from 2 given point and width, aka rectangle.
@@ -17,15 +17,15 @@ def polygon_F2points(A, B, /, w=1):
         y' = b + (x-a) * sin(v°) + (y-b) * cos(v°)
     '''
     if len(P) != 2:
-        raise IndexError \
-            (f'argument take 2 items but {len(P)} were given')
+        raise IndexError(
+            f'argument take 2 items but {len(P)} were given')
     if A == B:
         return None
     m = slope(A, B)
     wid = dec(w)/2
     Ax, Ay = dec(A)
     Bx, By = dec(B)
-    if m == 0 or m.is_infinite():
+    if m == 0 or (m and m.is_infinite()):
         j, k, s = ('x', 'y', False) if m == 0 else ('y', 'x', True)
         v = False if A[j] - B[j] > 0 else True
         q1, q2, q3, q4 = A[k]-wid, B[k]-wid, B[k]+wid, A[k]+wid

@@ -1,7 +1,6 @@
-from .line import line
-
+from .line import line # class
+from .ray import ray # class(line)
+from .segment import segment # class(ray)
 from .linear import linear
 from .perpendicular import perpendicular
 from .slope import slope
-
-# __all__ = [m for m in dir() if not m.startswith('_')]

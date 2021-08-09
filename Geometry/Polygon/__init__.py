@@ -1,4 +1,5 @@
-from .polygon import polygon
+from .polygon import polygon # class
+from .area import area
 from .polygon_F2points import polygon_F2points
 from .polygon_Fpoints import polygon_Fpoints
 

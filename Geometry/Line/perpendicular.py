@@ -22,8 +22,10 @@ def perpendicular(O, L, /):
     else:
         raise TypeError(
             f'First argument must be a {point}, a {line} or sequence types')
-    if L.m.is_infinite():
+    if L.m and L.m.is_infinite():
         m = dec().copy_sign(-L.m)
+    elif L.m == 0:
+        m = dec('inf').copy_sign(-L.m)
     else:
         m = DC.divide(*L.m.as_integer_ratio()[::-1]).copy_sign(-L.m)\
             if L.m else None
