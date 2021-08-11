@@ -197,3 +197,16 @@ class line:
         x1, y1 = self.P
         y = m*x - m*x1 + y1
         return y
+
+    @staticmethod
+    def lies_in(P, O, /):
+        '''
+        lies_in(P, O, /)
+        
+        Check whether point P lies in line O. O must be a line, ray or segment.
+        Checked without creating new instance.
+        '''
+        if not isinstance(O, line):
+            raise TypeError(
+                'second argument must be line, ray, or segment')
+        return line.__contains__(O, P)
