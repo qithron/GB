@@ -128,17 +128,17 @@ class quadrant:
         elif self.q == -1:
             return False if q in (4, 3, -4, -2) else True
 
-    def __lt__(self, obj, /):
-        return self.q < obj.q if isinstance(obj, quadrant) else obj
+    # def __lt__(self, obj, /):
+        # return self.q < (obj.q if isinstance(obj, quadrant) else obj)
 
-    def __le__(self, obj, /):
-        return self.q <= obj.q if isinstance(obj, quadrant) else obj
+    # def __le__(self, obj, /):
+        # return self.q <= (obj.q if isinstance(obj, quadrant) else obj)
 
-    def __gt__(self, obj, /):
-        return self.q > obj.q if isinstance(obj, quadrant) else obj
+    # def __gt__(self, obj, /):
+        # return self.q > (obj.q if isinstance(obj, quadrant) else obj)
 
-    def __ge__(self, obj, /):
-        return self.q >= obj.q if isinstance(obj, quadrant) else obj
+    # def __ge__(self, obj, /):
+        # return self.q >= (obj.q if isinstance(obj, quadrant) else obj)
     ###########################################################################
     def __add__(self, value, /):
         if type(value) != int:

@@ -44,3 +44,13 @@ class polygon:
               for i in range(1,len(self.points))]
               + [f'Vector({self.points[-1]},{self.points[0]})'])
         return 'PyPolygon = {' + f'{c}, {p}, {v}' + '}'
+    ###########################################################################
+    @staticmethod
+    def pol_type(POL):
+        '''
+        pol_type(POL)
+        
+        convex # cembung
+        concave # cekung
+        '''
+        pass
