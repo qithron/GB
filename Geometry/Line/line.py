@@ -5,17 +5,18 @@ from math import gcd
 
 class line:
     '''
-    line(A, B=None, /, *, m=None)
+    line(A=point(), B=None, /, *, m=1)
 
     line(A, B)
     line(A, m=x)
     line(A, m=dec('inf'))
+    line(A, m=None)
 
     Will give something like this:
         ax + by + c = 0
             where is:
                 a always positive
-                a, b, c always int.
+                a, b, c always int
 
     P = base point
     Q = 2nd point, ignored if m specified
@@ -29,10 +30,10 @@ class line:
         indicates the direction of the line,
         even None that indicates this is
         not a line at all
-        
+
         about Membership test operations: x in line,
         return True if type(x) == point and point lies in line else False
-            
+
     '''
     #### Line from 2 points:
     ####     (x₁, y₁)
@@ -51,24 +52,24 @@ class line:
     ####             a = m
     ####             b = -1
     ####             c = y1 - mx1
+    __slots__ = 'P', 'Q', 'm', 'a', 'b', 'c', '_arg'
 
-    __slots__ = 'P', 'Q', 'm', 'a', 'b', 'c', '__arg'
-
-    def __init__(self, A, B=None, /, *, m=None):
-        self.__arg = A, B, m
+    def __init__(self, A=point(), B=None, /, *, m=1):
+        self._arg = A, B, m
         self.P = A if type(A) == point else point(*A)
-        if B:
+        if B != None:
             self.Q = B if type(B) == point else point(*B)
             self.m = slope(self.P, self.Q)
         else:
             self.m = dec(m) if m != None else None
             self.Q = None
+        is_int = lambda x: x.as_integer_ratio()[1] == 1
         # linear to x/y axis
-        if self.m == 0 or self.m.is_infinite():
+        if self.m == 0 or (self.m and self.m.is_infinite()):
             a, b, c = (0, dec(1), 'y') if self.m == 0 else (dec(1), 0, 'x')
             c = -(self.P[c])
             w = True if a else False
-            if not self.__is_int(c): # always int
+            if not is_int(c): # always int
                 z = 10**len(str(c)[str(c).find('.')+1:])
                 if w: a *= z
                 else: b *= z
@@ -94,7 +95,7 @@ class line:
                 a = m
                 b = dec(-1)
                 c = y1 - m*x1
-            if any([not self.__is_int(i) for i in (a,b,c)]): # always int
+            if any([not is_int(i) for i in (a,b,c)]): # always int
                 z = 10**max(len(str(a)[str(a).find('.')+1:]),
                             len(str(b)[str(b).find('.')+1:]),
                             len(str(c)[str(c).find('.')+1:]))
@@ -116,13 +117,13 @@ class line:
             a = b = c = 0
         self.a, self.b, self.c = a, b, c
     ###########################################################################
-    def __call__(self):
+    def __call__(self, /):
         return self.a, self.b, self.c, self.m, self.P, self.Q
 
-    def __str__(self):
+    def __str__(self, /):
         a, b, c = self.a, self.b, self.c
-        if None == a == b == c:
-            return None
+        if 0 == a == b == c:
+            return 'not a line'
         A = '' if not a else (('' if a == 1 else str(a)) + 'x ')
         B = '' if not b else (
             ((('+ ' if b > 0 else '- ') + ('' if abs(b) == 1 else str(abs(b))))
@@ -130,30 +131,38 @@ class line:
         C = '' if not c else (('+ ' if c > 0 else '- ') + f'{abs(c)} ')
         return f'{A}{B}{C}= 0'
 
-    def __repr__(self):
-        P, Q, m = self.__arg
+    def __repr__(self, /):
+        P, Q, m = self._arg
         O = Q if Q else (f'm={m}')
         return f'line({P}, {O})'
     ###########################################################################
-    def __iter__(self):
+    def __iter__(self, /):
         return iter((self.a, self.b, self.c))
 
-    def __len__(self):
+    def __len__(self, /):
         return 3
 
     def __getitem__(self, key, /):
         return getattr(self, key)
-    
+
     def __contains__(self, item, /):
-        if len(item) != 2:
-            return False
         x, y = item
         return True if self.a*x + self.b*y + self.c == 0 else False
     ###########################################################################
-    def __is_int(self, value, /):
-        return True if value.as_integer_ratio()[1] == 1 else False
+    def __bool__(self, /):
+        return True if self.m != None else False
 
-    def _preview(self):
+    def __eq__(self, other, /):
+        return False if type(other) != line else (True
+        if abs(self.m) == abs(other.m)
+        and other.P in self else False)
+
+    def __ne__(self, other, /):
+        return True if type(other) != line else (False
+        if abs(self.m) == abs(other.m)
+        and other.P in self else True)
+    ###########################################################################
+    def _preview(self, /):
         Px, Py = self.P
         Qx, Qy = self.Q
         Q = f'({Qx}, {Qy})' if self.Q else self.Q
@@ -161,12 +170,6 @@ class line:
         a, b, c = self.a, self.b, self.c
         return f'P = ({Px}, {Py})\nQ = {Q}\nm = {m}\na:{a} b:{b} c:{c}\n'
     ###########################################################################
-    def ray(self):
-        pass
-    
-    def segment(self):
-        pass
-    
     def x_from(self, y, /):
         y = dec(y)
         m = self.m
@@ -194,3 +197,16 @@ class line:
         x1, y1 = self.P
         y = m*x - m*x1 + y1
         return y
+
+    @staticmethod
+    def lies_in(P, O, /):
+        '''
+        lies_in(P, O, /)
+        
+        Check whether point P lies in line O. O must be a line, ray or segment.
+        Checked without creating new instance.
+        '''
+        if not isinstance(O, line):
+            raise TypeError(
+                'second argument must be line, ray, or segment')
+        return line.__contains__(O, P)

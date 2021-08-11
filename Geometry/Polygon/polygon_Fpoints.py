@@ -11,7 +11,8 @@ def polygon_Fpoints(*P, w=1, smooth=False, level=None):
 
     polygon from points
 
-    Create new polygon object from 2 points or more with given width.
+    Returns a polygon object constructed from 2 or more points
+    and a given width.
 
     rotating (x, y) with center point (a, b) and v° rotating angle:
         x' = a + (x-a) * cos(v°) - (y-b) * sin(v°)
@@ -20,8 +21,8 @@ def polygon_Fpoints(*P, w=1, smooth=False, level=None):
     if smooth or level:
         raise SystemExit('not yet')
     if len(P) < 2:
-        raise IndexError \
-            (f'argument take at least 2 items but {len(P)} were given')
+        raise IndexError(
+            f'argument take at least 2 items but {len(P)} were given')
     elif len(P) == 2:
         return polygon_F2points(*P, w=w)
     if P.count(P[0]) == len(P):
@@ -55,8 +56,14 @@ def polygon_Fpoints(*P, w=1, smooth=False, level=None):
         if valB():
             break
         lb1, lb0 = func(B, A)
-        ls0.append(intersect(la0, lb0))
-        ls1.append(intersect(la1, lb1))
+        it0, it1 = intersect(la0, lb0), intersect(la1, lb1)
+        assert type(it0) == type(it1), f'how? {type(it0)} {type(it1)}'
+        if type(it0) == point == type(it1):
+            ls0.append(it0)
+            ls1.append(it1)
+        else:
+            ls0.append(la0.P)
+            ls1.append(la1.P)
         la0, la1 = lb0, lb1
     ls0.append(la0.P)
     ls1.append(la1.P)

@@ -20,5 +20,6 @@ def linear(O, L, /):
         P = O
     else:
         raise TypeError(
-            f'first argument must be a {point}, a {line} or sequence types')
+            f'first argument must be a {point}, '
+            f'a {line} or sequence types')
     return line(P, m=L.m)

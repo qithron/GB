@@ -18,7 +18,7 @@ def intersect(A, B, /):
         x = (c1*b2 - c2*b1)
         y = (a1*c2 - a2*c1)
         n = (a1*b2 - a2*b1)
-        if n == 0 == x == y:
+        if 0 == n == x == y:
             return dec('inf')
         elif n == 0:
             return None

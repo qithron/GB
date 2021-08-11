@@ -13,50 +13,79 @@ class point:
     point(0, 0).
     '''
     # I'm not sure about __rtruediv__, and below its
-
     __slots__ = 'x', 'y'
 
     def __init__(self, x=0, y=0, /):
         self.x = dec(x).normalize()
         self.y = dec(y).normalize()
     ###########################################################################
-    def __call__(self):
-        self.x.normalize()
-        self.y.normalize()
+    def __call__(self, /):
+        # self.x.normalize()
+        # self.y.normalize()
         return point(self.x, self.y)
 
-    def __str__(self):
+    def __str__(self, /):
         return f'({self.x}, {self.y})'
 
-    def __repr__(self):
+    def __repr__(self, /):
         return f'point({self.x}, {self.y})'
+    ###########################################################################
+    def __iter__(self, /):
+        return iter((self.x, self.y))
 
-    def __bool__(self):
+    def __len__(self, /):
+        return 2
+
+    def __getitem__(self, key, /):
+        if key == 0 or key == 'x':
+            return self.x
+        if key == 1 or key == 'y':
+            return self.y
+        if type(key) == str:
+            raise KeyError(
+                f'{point} object has no key {key}')
+        elif type(key) == int:
+            raise IndexError(
+                'index out of range')
+        else:
+            raise TypeError(
+                'key must be string or integers')
+
+    def __contains__(self, item, /):
+        return True if item == self.x or item == self.y else False
+    ###########################################################################
+    def __bool__(self, /):
         return True if self.x and self.y else False
 
     def __eq__(self, other, /):
-        return False if type(other) != point else \
-        (True if self.x == other.x and self.y == other.y else False)
+        if hasattr(other, '__len__') and len(self) == len(other):
+            x, y = other
+        else:
+            return False
+        return True if self.x == x and self.y == y else False
 
     def __ne__(self, other, /):
-        return True if type(other) != point else \
-        (True if self.x != other.x or self.y != other.y else False)
-
-    def __pos__(self):
+        if hasattr(other, '__len__') and len(self) == len(other):
+            x, y = other
+        else:
+            return True
+        return False if self.x == x and self.y == y else True
+    ###########################################################################
+    def __pos__(self, /):
         return point(+self.x, +self.y)
 
-    def __neg__(self):
+    def __neg__(self, /):
         return point(self.x.copy_negate(), self.y.copy_negate())
 
-    def __abs__(self):
+    def __abs__(self, /):
         return point(self.x.copy_abs(), self.y.copy_abs())
 
-    def __ceil__(self):
+    def __ceil__(self, /):
         return point(
             self.x.to_integral_value(rounding=decimal.ROUND_CEIL),
             self.y.to_integral_value(rounding=decimal.ROUND_CEIL))
 
-    def __floor__(self):
+    def __floor__(self, /):
         return point(
             self.x.to_integral_value(rounding=decimal.ROUND_FLOOR),
             self.y.to_integral_value(rounding=decimal.ROUND_FLOOR))
@@ -70,18 +99,6 @@ class point:
         return point(
             self.x.quantize(e).normalize(),
             self.y.quantize(e).normalize())
-    ###########################################################################
-    def __iter__(self):
-        return iter((self.x, self.y))
-
-    def __len__(self):
-        return 2
-
-    def __getitem__(self, key, /):
-        return getattr(self, key)
-
-    def __contains__(self, item, /):
-        return True if item == self.x or item == self.y else False
     ###########################################################################
     def __add__(self, obj, /):
         x, y = self.__get_value(obj)
