@@ -1,20 +1,23 @@
-from .Geometry.Line import *
-from .Geometry.Point import *
-# from .Geometry.Polygon import *
-from time import perf_counter_ns
+from .Geometry import *
 
-def timeexe(func, /):
-    st = perf_counter_ns()
-    fs = eval(func)
-    ed = perf_counter_ns()
-    print(f'{(ed-st)/10**6} ms elapsed for: {func}')
-    return fs
+# all func/class
+#for v in (v for v in dir() if not v.startswith('_')): print(v)
 
-# comment this if not needed
-for v in (m for m in dir() if not (m.startswith('_'))): print(f'{v:25} {eval(v)}')
+A = point()
+B = point(5, 6)
+C = point(-4, 3)
 
-# do other test here
-A = timeexe('point()')
-B = timeexe('point(2,4)')
-AB = timeexe('line(A,B)')
-print(AB)
+print(f'A : {A}')
+print(f'B : {B}')
+print(f'C : {C}')
+print(f'type(B), type(C) : {type(B)}, {type(C)}')
+print(f'B + C: {B + C}')
+
+ab = line(A, B)
+print('line ab:', ab)
+
+print()
+p = polygon_Fpoints(A, B, C)
+print(p)
+print('\noutput visual untuk Geogebra:')
+print(p.geogebra())
