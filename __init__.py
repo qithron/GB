@@ -2,6 +2,8 @@ import decimal
 
 DC = decimal.BasicContext
 DC.prec = 16
+decimal.RD = 16
+decimal.RX = 28
 decimal.setcontext(DC)
 
 RD = 9 # round(number, RD)
@@ -14,3 +16,4 @@ def dec(value='0', context=None, string=True):
     if string:
         value = str(value)
     return decimal.Decimal(value, context)
+
